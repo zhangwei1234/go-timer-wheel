@@ -110,12 +110,12 @@ func (t *TimerWheel) scheduleTimeOut(timeOut *WheelTimeOut) (string, error) {
 	defer t.lock.Unlock()
 	stopIndex := t.wheelCursor + int(relativeIndex)
 	if stopIndex > default_wheel_count {
-		timeOut.index = stopIndex - default_wheel_count
+		stopIndex = stopIndex - default_wheel_count
 		timeOut.rounds = int(remainingRounds) + 1
 	} else {
-		timeOut.index = stopIndex
 		timeOut.rounds = int(remainingRounds)
 	}
+	timeOut.index = stopIndex
 	item := t.wheel[stopIndex]
 	if item == nil {
 		item = &Iterator{
